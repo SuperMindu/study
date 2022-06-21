@@ -16,14 +16,11 @@ print(y.shape) # (10,)
 x = x.T
 print(x)
 print(x.shape)
-
 #2. # np.transpose(a) method
 # x = x.transpose
 # print(x)
 # print(x.shape)
-
 #3. np.swapaxes(a, 0, 1) method
-
 # 출처: https://rfriend.tistory.com/289 [R, Python 분석과 프로그래밍의 친구 (by R Friend):티스토리]
 
 #4.(앞으로 제일 많이 씀) x = x.reshape(10,2)
