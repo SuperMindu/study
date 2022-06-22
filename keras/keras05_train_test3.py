@@ -13,15 +13,20 @@ y = np.array([1,2,3,4,5,6,7,8,9,10])
 # y_test = np.array([8,9,10])
 
 #[검색] train과 test를 섞어서 7:3으로 찾을 수 있는 방법 
-x_train, x_test, y_train, y_test = train_test_split(x,
-                                                    y,                                                    
-                                                    test_size=0.3, 
-                                                    shuffle=True,
-                                                    random_state=1004)
-print('x_train : ', x_train)
-print('x_test : ', x_test)
-print('y_train : ', y_train)
-print('y_test : ', y_test)
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.3, train_size=0.7, 
+    shuffle=True, 
+    random_state=3000
+    )
+print('x_train : ', x_train) 
+print('x_test : ', x_test) 
+print('y_train : ', y_train) 
+print('y_test : ', y_test) 
+
+# x_train :  [1 3 6 7 2 9 4]
+# x_test :  [ 5 10  8]
+# y_train :  [1 3 6 7 2 9 4]
+# y_test :  [ 5 10  8]
 
 
 #2. 모델구성
