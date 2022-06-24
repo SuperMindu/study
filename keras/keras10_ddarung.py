@@ -43,7 +43,7 @@ print(y)
 print(y.shape)  # (1459,) 
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
-        train_size=0.80, shuffle=True, random_state=300)
+        train_size=0.78, shuffle=True, random_state=300)
 
 
 #2. 모델 구성
@@ -55,6 +55,13 @@ model.add(Dense(20))
 model.add(Dense(30))
 model.add(Dense(70))
 model.add(Dense(30))
+model.add(Dense(30))
+model.add(Dense(30))
+model.add(Dense(30))
+model.add(Dense(30))
+model.add(Dense(30))
+model.add(Dense(30))
+model.add(Dense(30))
 model.add(Dense(70))
 model.add(Dense(40))
 model.add(Dense(20))
@@ -64,7 +71,7 @@ model.add(Dense(1))
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
 start_time = time.time()
-model.fit(x_train, y_train, epochs=380, batch_size=30)
+model.fit(x_train, y_train, epochs=450, batch_size=30)
 
 
 #4. 평가, 예측
@@ -84,8 +91,11 @@ end_time = time.time() - start_time
 print("걸린시간 : ", end_time)
 
 
-# loss :  2401.894287109375
-# RMSE :  49.00912287733187
+
+# loss :  2360.45361328125
+# RMSE :  48.58450201649001
+# 걸린시간 :  15.192554950714111
+
 
 
 #과제1. 함수에 대해서 공부하기 
