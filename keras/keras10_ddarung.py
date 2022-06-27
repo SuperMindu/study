@@ -1,6 +1,7 @@
 # 데이콘 따릉이 문제풀이
 import numpy as np
 import pandas as pd   # 엑셀 데이터 불러올 때 사용
+from pandas import DataFrame 
 import time
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
@@ -19,6 +20,8 @@ print(train_set.shape)  # (1459, 10)
 
 test_set = pd.read_csv(path + 'test.csv',  #예측에서 씀
                        index_col=0)
+# submission = pd.read_csv(path + 'submission.csv') # 일단 이거를 읽어와야 함
+submission_set = pd.read_csv('./_data/ddarung/submission.csv', index_col=0)
 print(test_set)
 print(test_set.shape)  # (715, 9)
 
@@ -29,11 +32,12 @@ print(train_set.describe())  #
 #### 결측치 처리 1. 제거 ####
 print(train_set.isnull().sum()) #null의 합계를 구함
 train_set = train_set.dropna()
+test_set = test_set.fillna(test_set.mean())
 print(train_set.isnull().sum()) 
 print(train_set.shape)  # (1328, 10)
 
 
-x = train_set.drop(['count'], axis=1) 
+x = train_set.drop(['count'], axis=1) # drop - 데이터에서 ''사이 값 빼기
 print(x)
 print(x.columns)
 print(x.shape)  # (1459, 9)
@@ -43,35 +47,24 @@ print(y)
 print(y.shape)  # (1459,) 
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
-        train_size=0.78, shuffle=True, random_state=300)
+        train_size=0.75, shuffle=True, random_state=31)
 
 
 #2. 모델 구성
 model=Sequential()
 model.add(Dense(100, input_dim=9))
-model.add(Dense(30))
-model.add(Dense(40))
-model.add(Dense(20))
-model.add(Dense(30))
-model.add(Dense(70))
-model.add(Dense(30))
-model.add(Dense(30))
-model.add(Dense(30))
-model.add(Dense(30))
-model.add(Dense(30))
-model.add(Dense(30))
-model.add(Dense(30))
-model.add(Dense(30))
-model.add(Dense(70))
-model.add(Dense(40))
-model.add(Dense(20))
+model.add(Dense(100, activation='selu'))
+model.add(Dense(100, activation='selu'))
+model.add(Dense(100, activation='selu'))
+model.add(Dense(100, activation='selu'))
+model.add(Dense(100, activation='selu'))
 model.add(Dense(1))
 
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mae', optimizer='adam')
 start_time = time.time()
-model.fit(x_train, y_train, epochs=450, batch_size=30)
+model.fit(x_train, y_train, epochs=800, batch_size=30)
 
 
 #4. 평가, 예측
@@ -87,6 +80,35 @@ rmse = RMSE(y_test, y_predict)  #y_test와 y_predict를 비교해서 rmse로 출
 print("RMSE : ", rmse)
 
 
+
+y_summit = model.predict(test_set)
+print(y_summit)
+print(y_summit.shape)  # (715, 1)  # 이거를 submission.csv 파일에 쳐박아야 한다
+
+submission_set['count'] = y_summit
+print(submission_set)
+submission_set.to_csv('test1.csv', index=True)
+
+
+'''
+y_summit = model.predict(test_set)
+print(y_summit)
+print(y_summit.shape) # (715, 1)
+
+submission_set = pd.read_csv(path + 'submission.csv', # + 명령어는 문자를 앞문자와 더해줌
+                             index_col=0) # index_col=n n번째 컬럼을 인덱스로 인식
+
+
+submission_set['count'] = y_summit
+submission_set.to_csv('./_data/ddarung/submission.csv', index = True)
+
+
+
+#### .to_csv() 를 사용해서 
+### submission.csv를 완성하시오 
+
+
+
 end_time = time.time() - start_time
 print("걸린시간 : ", end_time)
 
@@ -95,6 +117,29 @@ print("걸린시간 : ", end_time)
 # loss :  2360.45361328125
 # RMSE :  48.58450201649001
 # 걸린시간 :  15.192554950714111
+
+
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, 
+        train_size=0.989, shuffle=True, random_state=100)
+
+
+#2. 모델 구성
+model=Sequential()
+model.add(Dense(100, input_dim=9))
+model.add(Dense(100, activation='swish'))
+model.add(Dense(100, activation='swish'))
+model.add(Dense(1))
+
+
+#3. 컴파일, 훈련
+model.compile(loss='mse', optimizer='adam')
+start_time = time.time()
+model.fit(x_train, y_train, epochs=600, batch_size=6)
+# loss :  838.1409301757812
+# RMSE :  28.950666294450354
+# 걸린시간 :  100.56669855117798 
+'''
 
 
 
