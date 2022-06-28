@@ -37,7 +37,7 @@ print(train_set.isnull().sum())
 print(train_set.shape)  # (1328, 10)
 
 
-x = train_set.drop(['count'], axis=1) # drop - 데이터에서 ''사이 값 빼기
+x = train_set.drop(['count'], axis=1) # .drop - 데이터에서 ''사이 값 빼기, # axis=1 (열을 날리겠다), axis=0 (행을 날리겠다)
 print(x)
 print(x.columns)
 print(x.shape)  # (1459, 9)
@@ -52,19 +52,20 @@ x_train, x_test, y_train, y_test = train_test_split(x, y,
 
 #2. 모델 구성
 model=Sequential()
-model.add(Dense(100, input_dim=9))
-model.add(Dense(100, activation='selu'))
-model.add(Dense(100, activation='selu'))
-model.add(Dense(100, activation='selu'))
-model.add(Dense(100, activation='selu'))
-model.add(Dense(100, activation='selu'))
+model.add(Dense(32, input_dim=9))
+model.add(Dense(64, activation='selu'))
+model.add(Dense(128, activation='selu'))
+model.add(Dense(256, activation='selu'))
+model.add(Dense(512, activation='selu'))
+model.add(Dense(1024, activation='selu'))
+model.add(Dense(2048, activation='selu'))
 model.add(Dense(1))
 
 
 #3. 컴파일, 훈련
 model.compile(loss='mae', optimizer='adam')
 start_time = time.time()
-model.fit(x_train, y_train, epochs=800, batch_size=30)
+model.fit(x_train, y_train, epochs=800, batch_size=100)
 
 
 #4. 평가, 예측
@@ -88,6 +89,9 @@ print(y_summit.shape)  # (715, 1)  # 이거를 submission.csv 파일에 쳐박�
 submission_set['count'] = y_summit
 print(submission_set)
 submission_set.to_csv('test1.csv', index=True)
+
+end_time = time.time() - start_time
+print("걸린시간 : ", end_time)
 
 
 '''
