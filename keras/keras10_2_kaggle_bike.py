@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 
 # 6/28 과제 - 함수와 Class 비교해서 조사
+#             tensorflow certificate 사연 제출
 
 #1. 데이터
 path = './_data/kaggle_bike/'  # .은 현재폴더라는 뜻

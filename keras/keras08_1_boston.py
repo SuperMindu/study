@@ -3,6 +3,7 @@ from tensorflow.keras.layers import Dense
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_boston
+from sklearn.metrics import r2_score
 
 #1. 데이터
 datasets = load_boston()
@@ -50,13 +51,14 @@ model.fit(x_train, y_train, epochs=1000, batch_size=1)
 
 
 #4. 평가, 예측
+# fit에서 구해진 y = wx + b에 x_test와 y_test를 넣어보고 그 차이가 loss로 나온다(?)
 loss = model.evaluate(x_test, y_test)
 print('loss : ', loss)
 
-y_predict = model.predict(x_test)
+y_predict = model.predict(x_test) # y의 예측값은 x의 테스트 값에 wx + b
 
-from sklearn.metrics import r2_score
-r2 = r2_score(y_test, y_predict)
+
+r2 = r2_score(y_test, y_predict) # 계측용 y_test값과, y 예측값을 비교한다
 print('r2스코어 : ', r2)
 
 

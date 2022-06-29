@@ -33,8 +33,8 @@ y_predict = model.predict(x)
 #그래프
 import matplotlib.pyplot as plt
 
-plt.scatter(x, y)
-plt.plot(x, y_predict, color='red')
+plt.scatter(x, y) # scatter 흩뿌리다(?) 그림처럼 보여주다(?) 점찍다
+plt.plot(x, y_predict, color='red') # plot 선을 보여준다
 plt.show()
 
                                                     
