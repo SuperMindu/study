@@ -10,8 +10,8 @@ fit단계에서의 loss값과 evaluate의 loss값의 차이가 큰걸 확인할 
 여기서 나온 loss값과 fit 단계의 loss값들의 차이가 크다 하더라도 그 차이가 fit 단계에 적용되지는 않는다
 '''
 import numpy as np 
-from tensorflow.keras.models import Sequential 
-from tensorflow.keras.layers import Dense 
+from tensorflow.python.keras.models import Sequential 
+from tensorflow.python.keras.layers import Dense 
 
 #1. 데이터
 # x = np.array([1,2,3,4,5,6,7,8,9,10])
