@@ -77,8 +77,8 @@ print('loss : ', loss)
 
 y_predict = model.predict(x_test) #y의 예측값은 x의 테스트 값에 wx + b
 # # r2 = r2_score(y_test, y_predict) # 계측용 y_test값과, y예측값을 비교한다
-# acc = accuracy_score(y_test, y_predict)
-# print('acc 스코어 : ', acc)
+acc = accuracy_score(y_test, y_predict)
+print('acc 스코어 : ', acc)
 print(y_predict)
 
 '''

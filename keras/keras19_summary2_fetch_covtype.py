@@ -81,6 +81,8 @@ model.add(Dense(128, activation='relu'))
 model.add(Dense(128, activation='relu'))               
 model.add(Dense(7, activation='softmax'))             # softmax : 다중분류일때 아웃풋에 활성화함수로 넣어줌, 아웃풋에서 소프트맥스 활성화 함수를 씌워 주면 그 합은 무조건 1로 변함
                                                                  # ex 70, 20, 10 -> 0.7, 0.2, 0.1
+                                                                 
+model.summary() # 90,503
 
 #3. 컴파일 훈련
 
