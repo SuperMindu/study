@@ -40,7 +40,8 @@ from pandas import get_dummies
 
 # 방법 3. sklearn 의 OneHotEncoder
 from sklearn.preprocessing import OneHotEncoder
-# enco = OneHotEncoder(sparse=False) # sparse=True가 디폴트이며 이는 Metrics를 반환함 원핫인코딩에서 필요한 것은 array이므로 sparse 옵션에 False를 넣어줌
+# enco = OneHotEncoder(sparse=False) # <-- 이렇게 선언 해주고 
+# sparse=True가 디폴트이며 이는 Metrics를 반환함 원핫인코딩에서 필요한 것은 array이므로 sparse 옵션에 False를 넣어줌
 # y = enco.fit_transform(y.reshape(-1,1)) # 2차원변환을 해주려면 행의 자리에 -1넣고 열의 자리에는 열의 개수대로 넣어주면 됨. 그러면 세로베열됨 (가로배열은(1,-1)임)
 # print(y)            # y값 보면 그냥 그안에 담긴 값만 딱 나옴  
 # print(y.shape)      # (178, 3)

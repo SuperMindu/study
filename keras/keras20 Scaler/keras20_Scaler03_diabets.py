@@ -1,6 +1,6 @@
 from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, MaxAbsScaler, RobustScaler
 import numpy as np
 import pandas as pd
 from tensorflow.python.keras.models import Sequential
@@ -16,10 +16,13 @@ y = datasets['target']
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.7, random_state=66)
 
 # scaler = MinMaxScaler()
-scaler = StandardScaler()
+# scaler = StandardScaler()
+# scaler = MaxAbsScaler()
+scaler = RobustScaler()
 scaler.fit(x_train)
 x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
+
 # print(np.min(x_train)) # 
 # print(np.max(x_train)) # 
 # print(np.min(x_test)) # 
@@ -49,7 +52,7 @@ print('r2스코어 : ', r2)
 # acc = accuracy_score(y_test, y_predict) 
 # print('acc 스코어 : ', acc)
 
-#        노말                                  MinMax                                   Standard                                    MaxAbs                               Robust                   
-# loss :  3124.175537109375              loss :  3057.21435546875                 loss :  3060.797119140625                                                                                     
-# r2스코어 :  0.4985570037461091          r2스코어 :  0.5093045539398335           r2스코어 :  0.5087294588477358                                                                                               
-#                                                                                                                   
+#                노말                        MinMax                        Standard                          MaxAbs                          Robust                              
+# loss : 3322.849365234375            3139.490966796875                3039.01318359375                 3161.3798828125                3024.195068359375                                                                                                                                                
+# r2 :   0.46666906731348756          0.49609881552670065              0.5122259038408296               0.49258555603261345            0.5146042927169433                                                                                                                                                       
+#                                                                                                                                                                                                                                                                                                   

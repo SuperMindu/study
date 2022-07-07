@@ -39,15 +39,17 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, random
 # 이 3개 성능 비교 해보기
 
 # scaler = MinMaxScaler()
-scaler = StandardScaler()
-
-scaler.fit(x_train)
-x_train = scaler.transform(x_train)
+# scaler = StandardScaler()
+# scaler = MaxAbsScaler()
+scaler = RobustScaler()
+# scaler.fit(x_train)
+# x_train = scaler.transform(x_train)
+x_train = scaler.fit_transform # <- fit, transform 한방에 (test는 하면 안됨)
 x_test = scaler.transform(x_test)
+
 # print(np.min(x_train)) # 0.0
 # print(np.max(x_train)) # 1.0 (1.0000000000000002 <- 이딴 식으로 나옴)
 # # 이미 컬럼별로 나눠서 스케일링이 돼 있는 상태임
-
 # print(np.min(x_test)) # -0.06141956477526944
 # print(np.max(x_test)) # 1.1478180091225068 (이 정도의 오차는 존재해야 함)
 
@@ -77,10 +79,10 @@ r2 = r2_score(y_test, y_predict)
 print('r2스코어 : ', r2)
 
 
-#        노말                                  MinMax                                   Standard                                    MaxAbs                               Robust
-# loss :  18.85323715209961            loss :  15.0762939453125                 loss :  16.257844924926758                                                                                       
-# r2스코어 :  0.7744367634902309        r2스코어 :  0.8196247569267352           r2스코어 :  0.8054884832421588                                                                                                
-#                                                                                                                   
+#             노말                             MinMax                            Standard                             MaxAbs                           Robust                              
+# loss : 17.94440269470215              15.174883842468262                 19.268272399902344                   15.438285827636719              20.521202087402344                                                                                                                                       
+# r2 :   0.7853102126165242             0.8184451978918657                 0.7694712272474835                   0.8152938097680617              0.7544809681427924                                                                                                                                        
+#                                                                                                                                                                                                                   
 
 
 
