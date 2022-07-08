@@ -18,7 +18,7 @@ from tensorflow.python.keras.layers import Dense, Input
 
 # model = Sequential() # 시퀀셜 모델은 먼저 정의를 해주고 시작
 # # model.add(Dense(10, input_dim=3))
-# model.add(Dense(10, input_shape=(3,))) # input_shape=(컬럼의 갯수, ) 열을 제외한 나머지 컬럼들이 다 들어감
+# model.add(Dense(10, input_shape=(3,))) # input_shape=(컬럼의 갯수, ) 행을 제외한 나머지 컬럼들이 다 들어감
 # model.add(Dense(5, activation='relu'))
 # model.add(Dense(3, activation='sigmoid'))
 # model.add(Dense(1))

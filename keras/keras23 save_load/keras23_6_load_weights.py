@@ -70,7 +70,7 @@ model.compile(loss='mse', optimizer='adam')
 # model = load_model('./_save/keras23_3_save_model.h5')                # (4) <- 이게 최종형태 
 
 
-# save_model은 모델과 가중치 저장. weights 는 가중치'만' 저장됨
+# model.save는 모델과 가중치 저장. save_weights 는 가중치'만' 저장됨
 # 그래서 load_weights만 하면 모델은 불러와지지 않음
 
 
