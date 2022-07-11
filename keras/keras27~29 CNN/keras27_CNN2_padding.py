@@ -7,7 +7,7 @@ model.add(Conv2D(filters=64, kernel_size=(3,3),
                  padding='same', # 패딩을 씌우면 커널 사이즈에 상관없이 원래 shape 그대로 감 (보통 0을 씌움)
                  input_shape=(28, 28, 1))) 
 
-model.add(MaxPooling2D())
+model.add(MaxPooling2D()) # dropout과 비슷한 개념인듯? conv2d가 kernel을 이용해서 중첩시키며 특성을 추출해나간다면 maxpoolig은 픽셀을 묶어서 그중에 가장 큰값만 뺌
 
 model.add(Conv2D(32, (2,2),
                  padding='valid', # 이게 padding의 디폴트 값
