@@ -17,6 +17,9 @@ from tensorflow.python.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 from tensorflow.keras.utils import to_categorical 
+from keras.layers import BatchNormalization
+from tensorflow.python.keras.layers import Activation
+
 
 # train 데이터 불러오기
 train_set = pd.read_csv('./_data/dacon_shopping/train.csv')
@@ -45,13 +48,14 @@ def get_month(date):
 train_set['Month'] = train_set['Date'].apply(get_month)
 
 def get_year(date):
-    year = date[6:]
+    year = date[7:]
     year = int(year)
     return year
 train_set['Year'] = train_set['Date'].apply(get_year)
 
 # 결측치 처리
 test_set = test_set.fillna(0)
+
 # Date 전처리
 test_set['Day'] = test_set['Date'].apply(get_day)
 test_set['Month'] = test_set['Date'].apply(get_month)
@@ -90,13 +94,28 @@ x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
 #2. 모델 구성 
-model = Sequential()
-model.add(Dense(64, input_dim=12))
-model.add(Dense(32))
-model.add(Dense(32))
-model.add(Dense(16))
-model.add(Dense(16))
-model.add(Dense(1))
+# model = Sequential()
+# model.add(Dense(64, input_dim=12))
+# model.add(Dense(32))
+# model.add(Dense(32))
+# model.add(Dense(16))
+# model.add(Dense(16))
+# model.add(Dense(1))
+input1 = Input(shape=(12,))
+dense1 = Dense(200)(input1)
+batchnorm1 = BatchNormalization()(dense1)
+activ1 = Activation('relu')(batchnorm1)
+drp4 = Dropout(0.2)(activ1)
+dense2 = Dense(100)(drp4)
+batchnorm2 = BatchNormalization()(dense2)
+activ2 = Activation('relu')(batchnorm2)
+drp5 = Dropout(0.2)(activ2)
+dense3 = Dense(100)(drp5)
+batchnorm3 = BatchNormalization()(dense3)
+activ3 = Activation('relu')(batchnorm3)
+drp6 = Dropout(0.2)(activ3)
+output1 = Dense(1)(drp6)
+model = Model(inputs=input1, outputs=output1)   
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
@@ -116,7 +135,7 @@ def RMSE(y_test, y_predict): #괄호 안의 변수를 받아들인다 :다음부
 rmse = RMSE(y_test, y_predict)  #y_test와 y_predict를 비교해서 rmse로 출력 (원래 데이터와 예측 데이터를 비교) 
 print("RMSE : ", rmse)
 
-# y_summit = model.predict(test_set2)
+# y_summit = model.predict(test_set)
 
 # print(y_summit)
 # print(y_summit.shape) # (180, 1)
@@ -130,7 +149,7 @@ print("RMSE : ", rmse)
 # print(submission_set)
 
 
-# submission_set.to_csv(path + 'submission.csv', index = True)                    
+# submission_set.to_csv('./' + 'submission.csv', index = True)                    
 
 
 
