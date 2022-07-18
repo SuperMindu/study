@@ -3,7 +3,7 @@
 # 삼전이랑 앙상블 해서 만들기
 import numpy as np
 import pandas as pd
-from sqlalchemy import true #pandas : 엑셀땡겨올때 씀
+from sqlalchemy import true 
 from tensorflow.python.keras.models import Sequential, Model
 from tensorflow.python.keras.layers import LSTM, Activation, Dense, Conv2D, Flatten, MaxPooling2D, Input, Dropout
 from keras.layers.recurrent import SimpleRNN
@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.preprocessing import MaxAbsScaler, RobustScaler
+from sklearn.preprocessing import LabelEncoder
 import datetime as dt
 
 ###########################폴더 생성시 현재 파일명으로 자동생성###########################################
@@ -26,32 +27,32 @@ current_name = a.split("\\")[-1]
 df_amore=pd.read_csv('./_data/test_amore_0718/아모레220718.csv', thousands=',', encoding='cp949') # 아모레 데이터 로드
 df_samsung=pd.read_csv('./_data/test_amore_0718/삼성전자220718.csv', thousands=',', encoding='cp949') # 삼성전자 데이터 로드
 df_amore.describe()
-# print(df_amore.columns)
-# Index(['시가', '고가', '저가', '종가', '전일비', 'Unnamed: 6', '등락률', '거래량', '금액(백만)',
-#        '신용비', '개인', '기관', '외인(수량)', '외국계', '프로그램', '외인비'],
-#       dtype='object')
+
    
+''' 1-2) 데이터 정제 '''
 # 결측치 확인
 # print(df_amore.info()) 
-print(df_samsung)
-'''
+
 # 이상치 확인
-q3 = df_amore.quantile(0.75) 
-q1 = df_amore.quantile(0.25)
-iqr = q3 - q1
+# q3 = df_amore.quantile(0.75) 
+# q1 = df_amore.quantile(0.25)
+# iqr = q3 - q1
 
+# 필요없는 컬럼 삭제
+df_amore = df_amore.drop(['등락률'], axis=1) 
 df_amore = df_amore.drop(['Unnamed: 6'], axis=1) 
-print(df_amore)
+df_samsung = df_samsung.drop(['등락률'], axis=1) 
 df_samsung = df_samsung.drop(['Unnamed: 6'], axis=1) 
-print(df_samsung)
+# print(df_amore)
+# print(df_samsung)
 
+# 년월일 분리 및 요일 추가
 df_amore['날짜_datetime'] = pd.to_datetime(df_amore['일자'])
 df_amore['년'] = df_amore['날짜_datetime'].dt.year
 df_amore['월'] = df_amore['날짜_datetime'].dt.month
 df_amore['일'] = df_amore['날짜_datetime'].dt.day
 df_amore['요일'] = df_amore['날짜_datetime'].dt.day_name()
 df_amore = df_amore.drop(['일자', '날짜_datetime'], axis=1) 
-print(df_amore)
 
 df_samsung['날짜_datetime'] = pd.to_datetime(df_samsung['일자'])
 df_samsung['년'] = df_samsung['날짜_datetime'].dt.year
@@ -59,10 +60,39 @@ df_samsung['월'] = df_samsung['날짜_datetime'].dt.month
 df_samsung['일'] = df_samsung['날짜_datetime'].dt.day
 df_samsung['요일'] = df_samsung['날짜_datetime'].dt.day_name()
 df_samsung = df_samsung.drop(['일자', '날짜_datetime'], axis=1) 
+# print(df_amore)
+# print(df_samsung)
+print(df_amore.shape) # (3180, 18)
+print(df_samsung.shape) # (3040, 18)
+
+# 라벨인코딩
+# df_amore, df_samsung=['요일']
+# encoder = LabelEncoder()
+for col in ['요일']:
+    encoder = LabelEncoder()
+    df_amore[col] = encoder.fit_transform(df_amore[col])
+df_amore.loc[:,['요일']].head()
+# print(labels)
+print(df_amore)
+
+for col in ['요일']:
+    encoder = LabelEncoder()
+    df_samsung[col] = encoder.fit_transform(df_samsung[col])
+df_samsung.loc[:,['요일']].head()
+# print(labels)
 print(df_samsung)
 
+# 필요 없는 행 삭제
+df_amore = df_amore.drop(index=[1773,1774,1775,1776,1777,1778,1779,1780,1781,1782])
+df_samsung = df_samsung.drop(index=[1037,1038,1039])
+# print(df_amore.shape) # (3170, 18)
+# print(df_samsung.shape) # (3037, 18)
 
-          
+# 하아아아아아아아앙
+
+
+
+'''
 print(train_set)
 print(train_set.shape) # (10886, 12)
                   
