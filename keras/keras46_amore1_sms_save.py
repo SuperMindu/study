@@ -7,7 +7,6 @@ import pandas as pd
 from sqlalchemy import true 
 from tensorflow.python.keras.models import Sequential, Model
 from tensorflow.python.keras.layers import LSTM, Activation, Dense, Conv2D, Flatten, MaxPooling2D, Input, Dropout, Conv1D
-from tensorflow.keras.layers import Bidirectional, LSTM
 from keras.layers.recurrent import SimpleRNN
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
@@ -66,27 +65,27 @@ df_samsung = df_samsung.drop(['전일비', 'Unnamed: 6', '등락률','금액(백
 print(df_amore.shape, df_samsung.shape) # (1035, 8) (1035, 8)
 
 # 년월일 분리 
-# df_amore['날짜_datetime'] = pd.to_datetime(df_amore['일자'])
-# df_amore['년'] = df_amore['날짜_datetime'].dt.year
-# df_amore['월'] = df_amore['날짜_datetime'].dt.month
-# df_amore['일'] = df_amore['날짜_datetime'].dt.day
-# # df_amore['요일'] = df_amore['날짜_datetime'].dt.day_name()
-# df_amore = df_amore.drop(['일자', '날짜_datetime'], axis=1) 
+df_amore['날짜_datetime'] = pd.to_datetime(df_amore['일자'])
+df_amore['년'] = df_amore['날짜_datetime'].dt.year
+df_amore['월'] = df_amore['날짜_datetime'].dt.month
+df_amore['일'] = df_amore['날짜_datetime'].dt.day
+# df_amore['요일'] = df_amore['날짜_datetime'].dt.day_name()
+df_amore = df_amore.drop(['일자', '날짜_datetime'], axis=1) 
 
-# df_samsung['날짜_datetime'] = pd.to_datetime(df_samsung['일자'])
-# df_samsung['년'] = df_samsung['날짜_datetime'].dt.year
-# df_samsung['월'] = df_samsung['날짜_datetime'].dt.month
-# df_samsung['일'] = df_samsung['날짜_datetime'].dt.day
-# # df_samsung['요일'] = df_samsung['날짜_datetime'].dt.day_name()
-# df_samsung = df_samsung.drop(['일자', '날짜_datetime'], axis=1) 
-# # print(df_amore)
-# # print(df_samsung)
-# print(df_amore.shape, df_samsung.shape) # (1035, 10) (1035, 10)
+df_samsung['날짜_datetime'] = pd.to_datetime(df_samsung['일자'])
+df_samsung['년'] = df_samsung['날짜_datetime'].dt.year
+df_samsung['월'] = df_samsung['날짜_datetime'].dt.month
+df_samsung['일'] = df_samsung['날짜_datetime'].dt.day
+# df_samsung['요일'] = df_samsung['날짜_datetime'].dt.day_name()
+df_samsung = df_samsung.drop(['일자', '날짜_datetime'], axis=1) 
+# print(df_amore)
+# print(df_samsung)
+print(df_amore.shape, df_samsung.shape) # (1035, 10) (1035, 10)
 
 
 # 피처 및 타겟 데이터 지정
-feature_data = ['시가', '고가', '저가', '종가', '거래량', '기관', '외국계']
-target_data = ['시가']
+feature_data = ['년', '월', '일', '시가', '고가', '저가', '종가', '거래량', '기관', '외국계']
+target_data = ['종가']
 
 # 시계열 데이터 함수 및 train_test_split
 def split_x(dataset, size):
@@ -100,13 +99,15 @@ SIZE = 20
 x1 = split_x(df_amore[feature_data], SIZE)
 x2 = split_x(df_samsung[feature_data], SIZE)
 y = split_x(df_amore[target_data], SIZE)
-# x1 = x1[:, :-1]                                
-# x2 = x2[:, :-1]                                
-# y = y[:, -1]
+x1 = x1[:, :-1]                                
+x2 = x2[:, :-1]                                
+y = y[:, -1]
+print(y.shape) # (1016, 1)
 
-x1_train, x1_test, x2_train, x2_test, y_train, y_test = train_test_split(x1, x2, y, test_size=0.2, shuffle=False)
+x1_train, x1_test, x2_train, x2_test, y_train, y_test = train_test_split(x1, x2, y, train_size=0.8, shuffle=False)
 print(x1_train.shape, x1_test.shape, x2_train.shape, x2_test.shape, y_train.shape, y_test.shape)
 # (812, 20, 7) (204, 20, 7) (812, 20, 7) (204, 20, 7) (812, 20, 1) (204, 20, 1)
+# (812, 19, 7) (204, 19, 7) (812, 19, 7) (204, 19, 7) (812, 1) (204, 1)
 # (812, 19, 7) (204, 19, 7) (812, 19, 7) (204, 19, 7) (812, 1) (204, 1)
 
 # 스케일링 및 reshape
@@ -114,35 +115,35 @@ scaler = MinMaxScaler()
 # scaler = StandardScaler()
 # scaler = MaxAbsScaler()
 # scaler = RobustScaler()
-x1_train = x1_train.reshape(812*20, 7)
+x1_train = x1_train.reshape(812*19, 10)
 x1_train = scaler.fit_transform(x1_train)
-x1_test = x1_test.reshape(204*20, 7)
+x1_test = x1_test.reshape(204*19, 10)
 x1_test = scaler.transform(x1_test)
 
-x2_train = x2_train.reshape(812*20, 7)
+x2_train = x2_train.reshape(812*19, 10)
 x2_train = scaler.fit_transform(x2_train)
-x2_test = x2_test.reshape(204*20, 7)
+x2_test = x2_test.reshape(204*19, 10)
 x2_test = scaler.transform(x2_test)
 
-x1_train = x1_train.reshape(812, 20, 7)
-x1_test = x1_test.reshape(204, 20, 7)
-x2_train = x2_train.reshape(812, 20, 7)
-x2_test = x2_test.reshape(204, 20, 7)
+x1_train = x1_train.reshape(812, 19, 10)
+x1_test = x1_test.reshape(204, 19, 10)
+x2_train = x2_train.reshape(812, 19, 10)
+x2_test = x2_test.reshape(204, 19, 10)
 
 
 
 ''' 2. 모델 구성 '''
 # 2-1. x1 모델
-input1 = Input(shape=(20, 7))
+input1 = Input(shape=(19, 10))
 dense1 = Conv1D(128, 2, activation='relu', name='ms1')(input1)
 dense2 = (LSTM(128, activation='relu', name='ms2'))(dense1)
 dense3 = Dense(64, activation='relu', name='ms3')(dense2)
 output1 = Dense(64, activation='relu', name='out_ms1')(dense3)
 
 # 2-2. x2 모델
-input2 = Input(shape=(20, 7))
+input2 = Input(shape=(19, 10))
 dense11 = Conv1D(128, 2, activation='relu', name='ms11')(input2)
-dense12 = (LSTM(128, activation='relu', name='ms2'))(dense11)
+dense12 = (LSTM(128, activation='relu', name='ms12'))(dense11)
 dense13 = Dense(64, activation='relu', name='ms13')(dense12)
 output2 = Dense(64, activation='relu', name='out_ms2')(dense13)
 
@@ -174,7 +175,8 @@ hist = model.fit([x1_train, x2_train], y_train, epochs=1000, batch_size=128, val
 loss = model.evaluate([x1_test, x2_test], y_test)
 print('loss : ' , loss)
 y_predict = model.predict([x1_test, x2_test])
-print('7월 19일 예측 시가 : ', y_predict[-1:])
-# r2= r2_score(last_output, y_test)
-# print('loss : ' , loss)
-# print('r2 스코어 : ', r2) 
+print('7월 20일 예측 종가 : ', y_predict[-1:])
+# loss :  594746816.0
+# 7월 20일 예측 종가 :  [[160947.02]]
+# loss :  488668352.0
+# 7월 20일 예측 종가 :  [[129772.9]]

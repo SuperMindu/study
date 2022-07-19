@@ -47,8 +47,11 @@ SIZE = 20
 x1 = split_x(dataset_amo[feature_cols], SIZE)
 x2 = split_x(dataset_sam[feature_cols], SIZE)
 y = split_x(dataset_amo[label_cols], SIZE)
+print(y.shape)
+
 
 x1_train, x1_test, x2_train, x2_test, y_train, y_test = train_test_split(x1, x2, y, test_size=0.2, shuffle=False)
+print(x1_train.shape, x1_test.shape, x2_train.shape, x2_test.shape, y_train.shape, y_test.shape)
 
 # data 스케일링
 scaler = MinMaxScaler()
