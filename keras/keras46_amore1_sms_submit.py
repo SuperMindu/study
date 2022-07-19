@@ -163,7 +163,7 @@ scaler = MinMaxScaler()
 # date = date.strftime("%Y%m%d_%H%M") 
 save_filepath = './_test/' + current_name + '/'
 load_filepath = './_test/' + current_name + '/'
-model = load_model(load_filepath + '20220719_1055_0004-1724822656.0000.hdf5')
+model = load_model('./_test/keras47_amore1_sms_save.py/20220719_1118_0009-240856176.0000.hdf5')
 filename = '{epoch:04d}-{val_loss:.4f}.hdf5'
 
 # es = EarlyStopping(monitor='val_loss', patience=50, mode='auto', verbose=1, restore_best_weights=True)     
