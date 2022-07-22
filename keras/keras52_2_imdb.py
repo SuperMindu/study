@@ -66,3 +66,5 @@ model.fit(x_train, y_train, epochs=20, batch_size=64, verbose=1)
 # 4. 평가, 예측
 acc = model.evaluate(x_test, y_test)[1] # <- 이렇게 해서 loss나 acc를 선택해서 호출할 수 있음
 print('acc : ', acc)
+
+# 일단 돌아는 감 집가서 돌려보기
