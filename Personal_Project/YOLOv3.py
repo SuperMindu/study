@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import sys
+# https://velog.io/@secdoc/%EB%B2%88%EC%97%AD-YOLOv3-%EB%B0%91%EB%B0%94%EB%8B%A5%EB%B6%80%ED%84%B0-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EA%B8%B0-1%ED%83%84
 
 # 1. Yolo 로드
 net = cv2.dnn.readNet("D:/yolov3.weights", "D:/yolov3.cfg")
@@ -14,11 +15,11 @@ colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
 # 2. 이미지 가져오기
 img = cv2.imread("D:/PP/12.jpg")
-img = cv2.resize(img, None, fx=0.4, fy=0.4)
+img = cv2.resize(img, None, fx=1, fy=1)
 height, width, channels = img.shape
 
 # 네트워크에서 이미지를 바로 사용할 수 없기때문에 먼저 이미지를 Blob으로 변환해야 함
-# Blob은 이미지에서 특징을 잡아내고 크기를 조정하는데 사용됨
+# Blob은 이미지에서 특징을 잡아내고 크기를 조정하는데 사용됨2
 
 # 3. Detecting objects
 # outs는 감지 결과이다. 탐지된 개체에 대한 모든 정보와 위치를 제공
