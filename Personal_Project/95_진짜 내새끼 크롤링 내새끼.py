@@ -1,7 +1,7 @@
 # https://www.youtube.com/watch?v=1b7pXC1-IbE <--- 유튜브 참고 
 # https://velog.io/@jungeun-dev/Python-%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81Selenium-%EA%B5%AC%EA%B8%80-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%88%98%EC%A7%91 <-- 
 # https://yobbicorgi.tistory.com/29 < --- 여기가 찐또배기
-
+ 
 
 
 from selenium import webdriver

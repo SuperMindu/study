@@ -4,7 +4,7 @@ import os
 from selenium.webdriver.chrome.options import Options
 import time
 import urllib.request # <- 이미지 url 주소로 다운받을 때 필요
-
+ 
 # op = Options()
 # op.add_experimental_option('prefs',{'download.default_directiory':r'd:/study_data/_data/image/PP/'})
 # urllib.request.urlretrieve(imgUrl, 'filePath' + 'fileName' + ".fileForm")
