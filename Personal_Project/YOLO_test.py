@@ -2,7 +2,7 @@
 # https://www.youtube.com/watch?v=fdWx3QV5n44&t=1300s
 # https://panggu15.github.io/detection/%EA%B0%84%EB%8B%A8%ED%95%9C-YOLO-%EA%B5%AC%ED%98%84(OpenCV)/
 
-# https://diyver.tistory.com/169 <- opencv 설치
+# https://diyver.tistory.com/169 <- opencv 설치 
 
 # 아래와 같은 순서로 설치
 # >>> pip install opencv-python
